@@ -108,8 +108,7 @@ def admin_login_required(view_func):
     @wraps(view_func)
     def wrapper(*args, **kwargs):
         if not session.get("admin_logged_in"):
-            flash("Please log in to access the admin panel.", "warning")
-            return redirect(url_for("admin_login"))
+            return redirect(url_for("home"))
         return view_func(*args, **kwargs)
     return wrapper
 
@@ -317,7 +316,7 @@ def contact():
     return render_template("contact.html", company_contact=company_contact, form_data=form_data)
 
 
-@app.route("/admin/login", methods=["GET", "POST"])
+@app.route("/secure-raytrace-admin-9921", methods=["GET", "POST"])
 def admin_login():
     if session.get("admin_logged_in"):
         return redirect(url_for("admin_dashboard"))
