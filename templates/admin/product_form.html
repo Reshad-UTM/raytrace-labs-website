@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="admin-page">
+    <div class="container">
+
+        <div class="admin-topbar">
+            <div>
+                <p class="eyebrow">Admin Panel</p>
+                <h1>
+                    {% if form_mode == 'add' %}
+                        Add Product
+                    {% else %}
+                        Edit Product
+                    {% endif %}
+                </h1>
+            </div>
+
+            <div class="admin-topbar-actions">
+                <a href="{{ url_for('admin_products') }}" class="btn-outline">Back</a>
+            </div>
+        </div>
+
+        <div class="admin-panel-card">
+            <form method="POST" enctype="multipart/form-data" class="admin-form-grid">
+
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" name="name" value="{{ product.name if product else '' }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Category</label>
+                    <input type="text" name="category" value="{{ product.category if product else '' }}">
+                </div>
+
+                <div class="form-group form-group-full">
+                    <label>Description</label>
+                    <textarea name="description" rows="5">{{ product.description if product else '' }}</textarea>
+                </div>
+
+                <div class="form-group form-group-full">
+                    <label>Product Image</label>
+                    <input type="file" name="image" accept=".png,.jpg,.jpeg,.webp">
+
+                    {% if product and product.icon %}
+                        <div class="current-image-box">
+                            <p>Current Image:</p>
+                            <img
+                                src="{{ url_for('static', filename='uploads/' ~ product.icon) }}"
+                                alt="{{ product.name }}"
+                                class="current-image-preview"
+                            >
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-actions">
+                    <a href="{{ url_for('admin_products') }}" class="btn-outline">Cancel</a>
+                    <button class="btn-primary" type="submit">Save</button>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

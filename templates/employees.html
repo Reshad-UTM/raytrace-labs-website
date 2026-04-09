@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="page-hero">
+    <div class="container">
+        <p class="eyebrow">Employees</p>
+        <h1>Meet the team behind RayTrace Labs</h1>
+        <p class="page-subtext">A growing team of engineers, developers, and technical innovators.</p>
+    </div>
+</section>
+
+<section class="cards-section">
+    <div class="container employee-grid">
+        {% if employees_data %}
+            {% for employee in employees_data %}
+            <a href="{{ url_for('employee_detail', employee_id=employee.id) }}" class="employee-card employee-card-link">
+                {% if employee.photo_path %}
+                    <img
+                        src="{{ url_for('static', filename='uploads/' ~ employee.photo_path) }}"
+                        alt="{{ employee.name }}"
+                        class="employee-photo"
+                    >
+                {% else %}
+                    <div class="employee-avatar">
+                        {{ employee.name[0] }}
+                    </div>
+                {% endif %}
+
+                <h3>{{ employee.name }}</h3>
+                <p class="employee-role">{{ employee.designation or 'Team Member' }}</p>
+                <p class="employee-dept">{{ employee.department or 'Department not set' }}</p>
+                <p class="employee-bio">{{ employee.bio or 'No bio added yet.' }}</p>
+            </a>
+            {% endfor %}
+        {% else %}
+            <div class="glass-panel">
+                <h2>No employees published yet</h2>
+                <p>Active employees added from admin will appear here.</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}

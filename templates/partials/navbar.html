@@ -1,0 +1,25 @@
+<header class="nav-glass">
+    <div class="container nav-flex">
+        <a href="/" class="logo">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="RayTrace Labs">
+        </a>
+
+        <nav class="nav-links">
+            <a href="/" class="{% if request.path == '/' %}active{% endif %}">Home</a>
+            <a href="/about" class="{% if request.path == '/about' %}active{% endif %}">About</a>
+            <a href="/products" class="{% if request.path == '/products' %}active{% endif %}">Products</a>
+            <a href="/achievements" class="{% if request.path == '/achievements' %}active{% endif %}">Achievements</a>
+            <a href="/employees" class="{% if request.path == '/employees' %}active{% endif %}">Employees</a>
+            <a href="/contact" class="{% if request.path == '/contact' %}active{% endif %}">Contact</a>
+        </nav>
+
+        {% if session.get('admin_logged_in') %}
+            <div class="nav-admin-actions">
+                <a href="/admin/dashboard" class="btn-glow">Dashboard</a>
+                <a href="/admin/logout" class="btn-outline">Logout</a>
+            </div>
+        {% else %}
+            <a href="/admin/login" class="btn-glow">Admin</a>
+        {% endif %}
+    </div>
+</header>

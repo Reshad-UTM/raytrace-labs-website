@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="admin-auth-page">
+    <div class="admin-auth-card">
+        <div class="admin-auth-brand">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="RayTrace Labs">
+            <h1>Admin Login</h1>
+            <p>Sign in to manage RayTrace Labs website content.</p>
+        </div>
+
+        <form method="POST" class="admin-auth-form">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Enter username"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter password"
+                    required
+                >
+            </div>
+
+            <button type="submit" class="btn-primary full-width-btn">Login</button>
+        </form>
+
+        <div class="admin-demo-note">
+            <p><strong>Default login for now:</strong></p>
+            <p>Username: <code>admin</code></p>
+            <p>Password: <code>admin123</code></p>
+        </div>
+    </div>
+</section>
+{% endblock %}

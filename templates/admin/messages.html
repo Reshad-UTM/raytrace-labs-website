@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="admin-page">
+    <div class="container">
+        <div class="admin-topbar">
+            <div>
+                <p class="eyebrow">Admin Panel</p>
+                <h1>Contact Messages</h1>
+                <p class="admin-subtext">
+                    View all messages submitted from the public contact page.
+                </p>
+            </div>
+            <div class="admin-topbar-actions">
+                <a href="{{ url_for('admin_dashboard') }}" class="btn-outline">Back to Dashboard</a>
+            </div>
+        </div>
+
+        <div class="admin-panel-card">
+            {% if messages_data %}
+                <div class="admin-table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Subject</th>
+                                <th>Message</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for message in messages_data %}
+                            <tr>
+                                <td>{{ message.name }}</td>
+                                <td>{{ message.email }}</td>
+                                <td>{{ message.subject or '—' }}</td>
+                                <td class="message-cell">{{ message.message }}</td>
+                                <td>{{ message.created_at }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="admin-empty-text">No contact messages received yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

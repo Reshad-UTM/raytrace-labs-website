@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="admin-page">
+    <div class="container">
+        <div class="admin-topbar">
+            <div>
+                <p class="eyebrow">Admin Panel</p>
+                <h1>
+                    {% if form_mode == 'add' %}
+                        Add Achievement
+                    {% else %}
+                        Edit Achievement
+                    {% endif %}
+                </h1>
+                <p class="admin-subtext">
+                    Fill in the achievement details carefully.
+                </p>
+            </div>
+            <div class="admin-topbar-actions">
+                <a href="{{ url_for('admin_achievements') }}" class="btn-outline">Back to Achievements</a>
+            </div>
+        </div>
+
+        <div class="admin-panel-card">
+            <form method="POST" enctype="multipart/form-data" class="admin-form-grid">
+                <div class="form-group form-group-full">
+                    <label for="title">Achievement Title *</label>
+                    <input
+                        type="text"
+                        id="title"
+                        name="title"
+                        value="{{ achievement.title if achievement else '' }}"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="date">Achievement Date</label>
+                    <input
+                        type="date"
+                        id="date"
+                        name="date"
+                        value="{{ achievement.date if achievement else '' }}"
+                    >
+                </div>
+
+                <div class="form-group form-group-full">
+                    <label for="description">Description</label>
+                    <textarea
+                        id="description"
+                        name="description"
+                        rows="6"
+                    >{{ achievement.description if achievement else '' }}</textarea>
+                </div>
+
+                <div class="form-group form-group-full">
+                    <label for="image">Achievement Image</label>
+                    <input type="file" id="image" name="image" accept=".png,.jpg,.jpeg,.webp">
+
+                    {% if achievement and achievement.image_path %}
+                        <div class="current-image-box">
+                            <p>Current Image:</p>
+                            <img
+                                src="{{ url_for('static', filename='uploads/' ~ achievement.image_path) }}"
+                                alt="{{ achievement.title }}"
+                                class="current-image-preview"
+                            >
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-actions">
+                    <a href="{{ url_for('admin_achievements') }}" class="btn-outline">Cancel</a>
+                    <button type="submit" class="btn-primary">
+                        {% if form_mode == 'add' %}
+                            Add Achievement
+                        {% else %}
+                            Update Achievement
+                        {% endif %}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

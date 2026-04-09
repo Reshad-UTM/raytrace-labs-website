@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="admin-page">
+    <div class="container">
+        <div class="admin-topbar">
+            <div>
+                <p class="eyebrow">Admin Panel</p>
+                <h1>Site Settings</h1>
+                <p class="admin-subtext">
+                    Update core company information used across the website.
+                </p>
+            </div>
+            <div class="admin-topbar-actions">
+                <a href="{{ url_for('admin_dashboard') }}" class="btn-outline">Back to Dashboard</a>
+            </div>
+        </div>
+
+        <div class="admin-panel-card">
+            <form method="POST" class="admin-form-grid">
+                <div class="form-group">
+                    <label for="site_name">Company Name</label>
+                    <input type="text" id="site_name" name="site_name" value="{{ settings_data.site_name }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="site_location">Company Location</label>
+                    <input type="text" id="site_location" name="site_location" value="{{ settings_data.site_location }}">
+                </div>
+
+                <div class="form-group form-group-full">
+                    <label for="site_tagline">Tagline</label>
+                    <input type="text" id="site_tagline" name="site_tagline" value="{{ settings_data.site_tagline }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="contact_email">Email</label>
+                    <input type="email" id="contact_email" name="contact_email" value="{{ settings_data.contact_email }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="contact_phone">Phone</label>
+                    <input type="text" id="contact_phone" name="contact_phone" value="{{ settings_data.contact_phone }}">
+                </div>
+
+                <div class="form-group form-group-full">
+                    <label for="contact_address">Address</label>
+                    <textarea id="contact_address" name="contact_address" rows="3">{{ settings_data.contact_address }}</textarea>
+                </div>
+
+                <div class="form-group form-group-full">
+                    <label for="footer_text">Footer Text</label>
+                    <input type="text" id="footer_text" name="footer_text" value="{{ settings_data.footer_text }}">
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Save Settings</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

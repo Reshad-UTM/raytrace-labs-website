@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="admin-page">
+    <div class="container">
+
+        <div class="admin-topbar">
+            <div>
+                <p class="eyebrow">Admin Panel</p>
+                <h1>Manage Products</h1>
+            </div>
+
+            <div class="admin-topbar-actions">
+                <a href="{{ url_for('admin_dashboard') }}" class="btn-outline">Back</a>
+                <a href="{{ url_for('admin_add_product') }}" class="btn-primary">Add Product</a>
+            </div>
+        </div>
+
+        <div class="admin-panel-card">
+            {% if products_data %}
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for p in products_data %}
+                        <tr>
+                            <td>
+                                {% if p.icon %}
+                                    <img src="{{ url_for('static', filename='uploads/' ~ p.icon) }}" alt="{{ p.name }}" class="table-thumb">
+                                {% else %}
+                                    —
+                                {% endif %}
+                            </td>
+                            <td>{{ p.name }}</td>
+                            <td>{{ p.category or '—' }}</td>
+                            <td>
+                                <a href="{{ url_for('admin_edit_product', product_id=p.id) }}" class="btn-small btn-edit">Edit</a>
+
+                                <form method="POST" action="{{ url_for('admin_delete_product', product_id=p.id) }}" style="display:inline;">
+                                    <button class="btn-small btn-delete" type="submit">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="glass-panel">
+                    <h2>No data available</h2>
+                    <p>Add items from admin panel to display here.</p>
+                </div>
+            {% endif %}
+        </div>
+
+    </div>
+</section>
+{% endblock %}

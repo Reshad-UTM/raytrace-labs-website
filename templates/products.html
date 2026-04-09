@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="page-hero">
+    <div class="container">
+        <h1>Our Products & Services</h1>
+        <p>Innovative engineering solutions by RayTrace Labs</p>
+    </div>
+</section>
+
+<section class="cards-section">
+    <div class="container grid-3">
+
+        {% for p in products_data %}
+        <div class="glass-panel">
+            <h3>{{ p.name }}</h3>
+            <p class="employee-role">{{ p.category }}</p>
+            <p>{{ p.description }}</p>
+        </div>
+        {% endfor %}
+
+    </div>
+</section>
+
+{% endblock %}

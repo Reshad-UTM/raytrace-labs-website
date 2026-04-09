@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="admin-page">
+    <div class="container">
+        <div class="admin-topbar">
+            <div>
+                <p class="eyebrow">Admin Panel</p>
+                <h1>
+                    {% if form_mode == 'add' %}
+                        Add Employee
+                    {% else %}
+                        Edit Employee
+                    {% endif %}
+                </h1>
+                <p class="admin-subtext">
+                    Fill in the employee information carefully.
+                </p>
+            </div>
+            <div class="admin-topbar-actions">
+                <a href="/admin/employees" class="btn-outline">Back to Employees</a>
+            </div>
+        </div>
+
+        <div class="admin-panel-card">
+            <form method="POST" enctype="multipart/form-data" class="admin-form-grid">
+                <div class="form-group">
+                    <label for="name">Full Name *</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value="{{ employee.name if employee else '' }}"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="designation">Designation</label>
+                    <input
+                        type="text"
+                        id="designation"
+                        name="designation"
+                        value="{{ employee.designation if employee else '' }}"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="department">Department</label>
+                    <input
+                        type="text"
+                        id="department"
+                        name="department"
+                        value="{{ employee.department if employee else '' }}"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value="{{ employee.email if employee else '' }}"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input
+                        type="text"
+                        id="phone"
+                        name="phone"
+                        value="{{ employee.phone if employee else '' }}"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="joining_date">Joining Date</label>
+                    <input
+                        type="date"
+                        id="joining_date"
+                        name="joining_date"
+                        value="{{ employee.joining_date if employee else '' }}"
+                    >
+                </div>
+
+                <div class="form-group form-group-full">
+                    <label for="bio">Short Bio</label>
+                    <textarea
+                        id="bio"
+                        name="bio"
+                        rows="5"
+                    >{{ employee.bio if employee else '' }}</textarea>
+                </div>
+
+                <div class="form-group form-group-full">
+                    <label for="skills">Skills / Expertise</label>
+                    <textarea
+                        id="skills"
+                        name="skills"
+                        rows="4"
+                    >{{ employee.skills if employee else '' }}</textarea>
+                </div>
+
+                <div class="form-group form-group-full">
+                    <label for="photo">Profile Photo</label>
+                    <input type="file" id="photo" name="photo" accept=".png,.jpg,.jpeg,.webp">
+
+                    {% if employee and employee.photo_path %}
+                        <div class="current-image-box">
+                            <p>Current Photo:</p>
+                            <img
+                                src="{{ url_for('static', filename='uploads/' ~ employee.photo_path) }}"
+                                alt="{{ employee.name }}"
+                                class="current-image-preview"
+                            >
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group form-checkbox-row">
+                    <label class="checkbox-label">
+                        <input
+                            type="checkbox"
+                            name="is_active"
+                            {% if employee %}
+                                {% if employee.is_active %}checked{% endif %}
+                            {% else %}
+                                checked
+                            {% endif %}
+                        >
+                        Show this employee on public website
+                    </label>
+                </div>
+
+                <div class="form-actions">
+                    <a href="/admin/employees" class="btn-outline">Cancel</a>
+                    <button type="submit" class="btn-primary">
+                        {% if form_mode == 'add' %}
+                            Add Employee
+                        {% else %}
+                            Update Employee
+                        {% endif %}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

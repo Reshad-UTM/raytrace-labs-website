@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="admin-page">
+    <div class="container">
+        <div class="admin-topbar">
+            <div>
+                <p class="eyebrow">Admin Panel</p>
+                <h1>Dashboard</h1>
+                <p class="admin-subtext">
+                    Welcome back, {{ session.get('admin_username') }}.
+                </p>
+            </div>
+            <div class="admin-topbar-actions">
+                <a href="/" class="btn-outline">View Website</a>
+                <a href="/admin/logout" class="btn-primary">Logout</a>
+            </div>
+        </div>
+
+        <div class="admin-stats-grid">
+            <div class="admin-stat-card">
+                <p class="admin-stat-label">Products</p>
+                <h2>{{ stats.products_count }}</h2>
+            </div>
+
+            <div class="admin-stat-card">
+                <p class="admin-stat-label">Achievements</p>
+                <h2>{{ stats.achievements_count }}</h2>
+            </div>
+
+            <div class="admin-stat-card">
+                <p class="admin-stat-label">Employees</p>
+                <h2>{{ stats.employees_count }}</h2>
+            </div>
+
+            <div class="admin-stat-card">
+                <p class="admin-stat-label">Messages</p>
+                <h2>{{ stats.messages_count }}</h2>
+            </div>
+        </div>
+
+        <div class="admin-main-grid">
+            <div class="admin-panel-card">
+                <h2>Management</h2>
+                <div class="admin-action-list">
+                    <a href="{{ url_for('admin_homepage') }}" class="admin-action-item">Manage Homepage</a>
+                    <a href="{{ url_for('admin_settings') }}" class="admin-action-item">Site Settings</a>
+                    <a href="{{ url_for('admin_products') }}" class="admin-action-item">Manage Products</a>
+                    <a href="{{ url_for('admin_achievements') }}" class="admin-action-item">Manage Achievements</a>
+                    <a href="{{ url_for('admin_employees') }}" class="admin-action-item">Manage Employees</a>
+                    <a href="{{ url_for('admin_messages') }}" class="admin-action-item">View Contact Messages</a>
+                </div>
+            </div>
+
+            <div class="admin-panel-card">
+                <h2>Recent Employees</h2>
+
+                {% if recent_employees %}
+                    <div class="admin-table-wrap">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Designation</th>
+                                    <th>Department</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for employee in recent_employees %}
+                                <tr>
+                                    <td>{{ employee.name }}</td>
+                                    <td>{{ employee.designation or '—' }}</td>
+                                    <td>{{ employee.department or '—' }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="admin-empty-text">No employee data added yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

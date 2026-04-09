@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="page-hero">
+    <div class="container">
+        <p class="eyebrow">About Us</p>
+        <h1>Engineering innovation with practical purpose</h1>
+        <p class="page-subtext">{{ about_data.intro }}</p>
+    </div>
+</section>
+
+<section class="cards-section">
+    <div class="container split-grid">
+        <div class="glass-panel">
+            <h2>Mission</h2>
+            <p>{{ about_data.mission }}</p>
+        </div>
+        <div class="glass-panel">
+            <h2>Vision</h2>
+            <p>{{ about_data.vision }}</p>
+        </div>
+    </div>
+</section>
+
+<section class="cards-section section-dark">
+    <div class="container">
+        <div class="section-head">
+            <p class="eyebrow">Core Strengths</p>
+            <h2>What defines RayTrace Labs</h2>
+        </div>
+
+        <div class="grid">
+            {% for item in about_data.strengths %}
+            <div class="glass-card">
+                <h3>{{ item }}</h3>
+                <p>Focused on quality engineering, scalability, and dependable execution.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}

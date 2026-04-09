@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="hero-premium">
+    <div class="container hero-center">
+        <p class="eyebrow">{{ company_info.location }}</p>
+        <h1 class="glow-text">{{ hero_section.title }}</h1>
+        <p class="hero-sub">{{ hero_subtitle.title }}</p>
+        <p class="hero-description">{{ hero_section.content }}</p>
+
+        <div class="hero-buttons">
+            <a href="/products" class="btn-primary">Explore Solutions</a>
+            <a href="/contact" class="btn-secondary">Contact Us</a>
+        </div>
+    </div>
+</section>
+
+<section class="cards-section">
+    <div class="container">
+        <div class="section-head">
+            <p class="eyebrow">Our Expertise</p>
+            <h2>Technology domains we work in</h2>
+        </div>
+
+        <div class="grid">
+            {% for item in featured_domains %}
+            <div class="glass-card">
+                <h3>{{ item.title }}</h3>
+                <p>{{ item.text }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="cards-section section-dark">
+    <div class="container">
+        <div class="section-head">
+            <p class="eyebrow">Featured Solutions</p>
+            <h2>Built for practical deployment</h2>
+        </div>
+
+        <div class="grid">
+            {% if featured_products %}
+                {% for product in featured_products %}
+                <div class="glass-card">
+                    <h3>{{ product.name }}</h3>
+                    <p>{{ product.description }}</p>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="glass-panel">
+                    <h2>No products added yet</h2>
+                    <p>Products added from admin will appear here.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<section class="cards-section">
+    <div class="container split-grid">
+        <div class="glass-panel">
+            <p class="eyebrow">{{ about_preview.title }}</p>
+            <h2>Professional engineering with a research mindset</h2>
+            <p>{{ about_preview.content }}</p>
+        </div>
+
+        <div class="glass-panel">
+            <p class="eyebrow">Our Team</p>
+            <h2>People behind the work</h2>
+            <div class="team-preview-list">
+                {% if team_preview %}
+                    {% for member in team_preview %}
+                    <div class="team-mini-card">
+                        <h3>{{ member.name }}</h3>
+                        <p>{{ member.designation or 'Team Member' }}</p>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No active employees added yet.</p>
+                {% endif %}
+            </div>
+            <a href="/employees" class="inline-link">Meet the team</a>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="container cta-box">
+        <div>
+            <p class="eyebrow">{{ hero_subtitle.title }}</p>
+            <h2>{{ hero_subtitle.content }}</h2>
+            <p>From robotics and embedded systems to smart engineering platforms, RayTrace Labs is ready to collaborate.</p>
+        </div>
+        <a href="/contact" class="btn-primary">Start a Conversation</a>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="page-hero">
+    <div class="container">
+        <p class="eyebrow">News & Achievements</p>
+        <h1>Milestones, progress, and professional highlights</h1>
+        <p class="page-subtext">A snapshot of our technical growth, development efforts, and organizational progress.</p>
+    </div>
+</section>
+
+<section class="cards-section">
+    <div class="container timeline-list">
+        {% for item in achievements_data %}
+        <div class="timeline-card">
+            <div class="timeline-year">{{ item.year }}</div>
+            <div class="timeline-content">
+                <h3>{{ item.title }}</h3>
+                <p>{{ item.description }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}

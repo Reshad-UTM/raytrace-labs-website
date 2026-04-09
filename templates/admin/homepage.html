@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="admin-page">
+    <div class="container">
+        <div class="admin-topbar">
+            <div>
+                <p class="eyebrow">Admin Panel</p>
+                <h1>Manage Homepage</h1>
+                <p class="admin-subtext">
+                    Update the main homepage texts anytime from this panel.
+                </p>
+            </div>
+            <div class="admin-topbar-actions">
+                <a href="{{ url_for('admin_dashboard') }}" class="btn-outline">Back to Dashboard</a>
+                <a href="{{ url_for('home') }}" class="btn-primary">View Homepage</a>
+            </div>
+        </div>
+
+        <div class="admin-panel-card">
+            <form method="POST" class="admin-form-grid">
+                <div class="form-group form-group-full">
+                    <label for="hero_title">Hero Main Title</label>
+                    <input
+                        type="text"
+                        id="hero_title"
+                        name="hero_title"
+                        value="{{ homepage_data.hero_title.title }}"
+                        required
+                    >
+                </div>
+
+                <div class="form-group form-group-full">
+                    <label for="hero_content">Hero Description</label>
+                    <textarea
+                        id="hero_content"
+                        name="hero_content"
+                        rows="4"
+                    >{{ homepage_data.hero_title.content }}</textarea>
+                </div>
+
+                <div class="form-group form-group-full">
+                    <label for="hero_subtitle_title">Hero Subtitle / Small Heading</label>
+                    <input
+                        type="text"
+                        id="hero_subtitle_title"
+                        name="hero_subtitle_title"
+                        value="{{ homepage_data.hero_subtitle.title }}"
+                    >
+                </div>
+
+                <div class="form-group form-group-full">
+                    <label for="hero_subtitle_content">Hero Subtitle Description</label>
+                    <textarea
+                        id="hero_subtitle_content"
+                        name="hero_subtitle_content"
+                        rows="3"
+                    >{{ homepage_data.hero_subtitle.content }}</textarea>
+                </div>
+
+                <div class="form-group form-group-full">
+                    <label for="about_preview_title">About Preview Title</label>
+                    <input
+                        type="text"
+                        id="about_preview_title"
+                        name="about_preview_title"
+                        value="{{ homepage_data.about_preview.title }}"
+                    >
+                </div>
+
+                <div class="form-group form-group-full">
+                    <label for="about_preview_content">About Preview Description</label>
+                    <textarea
+                        id="about_preview_content"
+                        name="about_preview_content"
+                        rows="4"
+                    >{{ homepage_data.about_preview.content }}</textarea>
+                </div>
+
+                <div class="form-actions">
+                    <a href="{{ url_for('admin_dashboard') }}" class="btn-outline">Cancel</a>
+                    <button type="submit" class="btn-primary">Save Homepage Content</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
