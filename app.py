@@ -18,8 +18,12 @@ from database import execute_query, query_all, query_one
 
 app = Flask(__name__)
 
+import os
+from pathlib import Path
+
 BASE_DIR = Path(__file__).resolve().parent
-UPLOAD_FOLDER = BASE_DIR / "static" / "uploads"
+DATA_DIR = Path(os.environ.get("DATA_DIR", BASE_DIR))
+UPLOAD_FOLDER = DATA_DIR / "uploads"
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "webp"}
 
 app.config["SECRET_KEY"] = "change-this-later-raytrace-secret-key"
@@ -774,4 +778,4 @@ def admin_delete_employee(employee_id):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=False)

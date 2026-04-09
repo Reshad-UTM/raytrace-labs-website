@@ -1,8 +1,12 @@
+import os
 import sqlite3
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent
-DB_PATH = BASE_DIR / "raytrace.db"
+DATA_DIR = Path(os.environ.get("DATA_DIR", BASE_DIR))
+DATA_DIR.mkdir(parents=True, exist_ok=True)
+
+DB_PATH = DATA_DIR / "raytrace.db"
 
 
 def get_connection():
