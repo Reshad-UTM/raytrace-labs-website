@@ -15,7 +15,7 @@
         {% if employees_data %}
             {% for employee in employees_data %}
             <div class="employee-card">
-                {% if employee.photo_path %}
+                {% if employee.photo_path and employee.photo_path.startswith('http') %}
                     <img
                         src="{{ employee.photo_path }}"
                         alt="{{ employee.name }}"
@@ -31,7 +31,7 @@
                 <p class="employee-role">{{ employee.designation or 'Team Member' }}</p>
                 <p class="employee-dept">{{ employee.department or 'Department not set' }}</p>
                 <p class="employee-bio">{{ employee.bio or 'No bio added yet.' }}</p>
-            </a>
+            </div>
             {% endfor %}
         {% else %}
             <div class="glass-panel">
