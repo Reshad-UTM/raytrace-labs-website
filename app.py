@@ -118,8 +118,7 @@ def allowed_file(filename):
 
 
 def save_uploaded_file(file_obj):
-    if file_obj is None:
-        return ""
+    return None
 
     if file_obj.filename is None or file_obj.filename.strip() == "":
         return ""
@@ -253,7 +252,7 @@ def employees():
 @app.route("/employees/<int:employee_id>")
 def employee_detail(employee_id):
     employee = query_one(
-        "SELECT * FROM employees WHERE id = ? AND is_active = 1",
+        "SELECT * FROM employees WHERE id = %s AND is_active = 1",
         (employee_id,)
     )
 
@@ -471,7 +470,7 @@ def admin_add_product():
 
         execute_query(
             "INSERT INTO products (name, description, category, icon) VALUES (?, ?, ?, ?)",
-            (name, description, category, saved_image_name)
+            (name, description, category, None)
         )
 
         flash("Product added successfully.", "success")
@@ -483,7 +482,7 @@ def admin_add_product():
 @app.route("/admin/products/edit/<int:product_id>", methods=["GET", "POST"])
 @admin_login_required
 def admin_edit_product(product_id):
-    product = query_one("SELECT * FROM products WHERE id = ?", (product_id,))
+    product = query_one("SELECT * FROM products WHERE id = %s", (product_id,))
 
     if not product:
         flash("Product not found.", "error")
@@ -565,7 +564,7 @@ def admin_add_achievement():
 @app.route("/admin/achievements/edit/<int:achievement_id>", methods=["GET", "POST"])
 @admin_login_required
 def admin_edit_achievement(achievement_id):
-    achievement = query_one("SELECT * FROM achievements WHERE id = ?", (achievement_id,))
+    achievement = query_one("SELECT * FROM achievements WHERE id = %s", (achievement_id,))
 
     if not achievement:
         flash("Achievement not found.", "error")
@@ -691,7 +690,7 @@ def admin_add_employee():
 @app.route("/admin/employees/edit/<int:employee_id>", methods=["GET", "POST"])
 @admin_login_required
 def admin_edit_employee(employee_id):
-    employee = query_one("SELECT * FROM employees WHERE id = ?", (employee_id,))
+    employee = query_one("SELECT * FROM employees WHERE id = %s", (employee_id,))
 
     if not employee:
         flash("Employee not found.", "error")
@@ -735,7 +734,7 @@ def admin_edit_employee(employee_id):
             UPDATE employees
             SET name = ?, designation = ?, department = ?, email = ?, phone = ?,
                 joining_date = ?, bio = ?, skills = ?, photo_path = ?, is_active = ?
-            WHERE id = ?
+            WHERE id = %s
             """,
             (
                 name,
@@ -765,13 +764,13 @@ def admin_edit_employee(employee_id):
 @app.route("/admin/employees/delete/<int:employee_id>", methods=["POST"])
 @admin_login_required
 def admin_delete_employee(employee_id):
-    employee = query_one("SELECT * FROM employees WHERE id = ?", (employee_id,))
+    employee = query_one("SELECT * FROM employees WHERE id = %s", (employee_id,))
 
     if not employee:
         flash("Employee not found.", "error")
         return redirect(url_for("admin_employees"))
 
-    execute_query("DELETE FROM employees WHERE id = ?", (employee_id,))
+    execute_query("DELETE FROM employees WHERE id = %s", (employee_id,))
     flash("Employee deleted successfully.", "success")
     return redirect(url_for("admin_employees"))
 
