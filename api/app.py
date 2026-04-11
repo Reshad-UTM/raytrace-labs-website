@@ -143,31 +143,15 @@ def save_uploaded_file(file_obj):
 @app.route("/")
 def home():
     company_info = {
-        "name": get_setting("site_name", "RayTrace Labs"),
-        "tagline": get_setting(
-            "site_tagline",
-            "Robotics, Embedded Systems, AI & Intelligent Engineering Solutions"
-        ),
-        "location": get_setting("site_location", "Rajshahi, Bangladesh"),
-    }
+    "name": "RayTrace Labs",
+    "tagline": "Robotics, Embedded Systems, AI & Intelligent Engineering Solutions",
+    "location": "Rajshahi, Bangladesh",
+}
 
-    hero_section = get_homepage_section(
-        "hero_title",
-        "RayTrace Labs",
-        "Professional engineering for robotics, embedded systems, AI, and IoT."
-    )
+            hero_section = "RayTrace Labs"
+            hero_subtitle = "Engineering Innovation"
 
-    hero_subtitle = get_homepage_section(
-        "hero_subtitle",
-        "Engineering Innovation",
-        "Premium technology solutions built for real-world deployment."
-    )
-
-    about_preview = get_homepage_section(
-        "about_preview",
-        "Who We Are",
-        "RayTrace Labs develops practical, research-driven engineering systems."
-    )
+            about_preview = "RayTrace Labs develops practical, research-driven engineering systems."
 
     featured_domains = [
         {
@@ -188,11 +172,9 @@ def home():
         },
     ]
 
-    featured_products = query_all("SELECT * FROM products ORDER BY id DESC LIMIT 3")
-    achievements_preview = query_all("SELECT * FROM achievements ORDER BY id DESC LIMIT 3")
-    team_preview = query_all(
-        "SELECT * FROM employees WHERE is_active = 1 ORDER BY id DESC LIMIT 3"
-    )
+            featured_products = []
+            achievements_preview = []
+            team_preview = []
 
     return render_template(
         "index.html",
