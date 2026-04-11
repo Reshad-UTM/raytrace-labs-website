@@ -15,7 +15,7 @@ from werkzeug.security import check_password_hash
 from werkzeug.utils import secure_filename
 
 from database import execute_query, query_all, query_one
-
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 app = Flask(__name__)
 
 import os
@@ -775,5 +775,3 @@ def admin_delete_employee(employee_id):
     return redirect(url_for("admin_employees"))
 
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=False)
