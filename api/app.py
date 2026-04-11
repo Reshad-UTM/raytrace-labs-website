@@ -18,8 +18,8 @@ from werkzeug.utils import secure_filename
 from database import execute_query, query_all, query_one
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-DATA_DIR = Path(os.environ.get("DATA_DIR", BASE_DIR))
-UPLOAD_FOLDER = DATA_DIR / "uploads"
+DATA_DIR = BASE_DIR
+UPLOAD_FOLDER = BASE_DIR / "uploads"
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "webp"}
 
 app = Flask(
@@ -32,7 +32,6 @@ app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "change-this-later-raytr
 app.config["UPLOAD_FOLDER"] = str(UPLOAD_FOLDER)
 app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
 
-UPLOAD_FOLDER.mkdir(parents=True, exist_ok=True)
 @app.context_processor
 def inject_site_data():
     return {
