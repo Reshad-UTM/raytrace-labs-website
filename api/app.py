@@ -16,15 +16,19 @@ from werkzeug.utils import secure_filename
 
 from database import execute_query, query_all, query_one
 from flask import Flask, render_template, request, redirect, url_for, session, flash
-app = Flask(__name__)
-
 import os
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent
+BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = Path(os.environ.get("DATA_DIR", BASE_DIR))
 UPLOAD_FOLDER = DATA_DIR / "uploads"
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "webp"}
+
+app = Flask(
+    __name__,
+    template_folder=str(BASE_DIR / "templates"),
+    static_folder=str(BASE_DIR / "static"),
+)
 
 app.config["SECRET_KEY"] = "change-this-later-raytrace-secret-key"
 app.config["UPLOAD_FOLDER"] = str(UPLOAD_FOLDER)
