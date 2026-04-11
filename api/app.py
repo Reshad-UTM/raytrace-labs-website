@@ -43,27 +43,27 @@ def inject_site_data():
 
 
 def get_setting(key, default_value=""):
-    row = query_one("SELECT value FROM site_settings WHERE key = ?", (key,))
+    row = query_one("SELECT value FROM site_settings WHERE key = %s", (key,))
     return row["value"] if row else default_value
 
 
 def set_setting(key, value):
-    existing = query_one("SELECT id FROM site_settings WHERE key = ?", (key,))
+    existing = query_one("SELECT id FROM site_settings WHERE key = %s", (key,))
     if existing:
         execute_query(
-            "UPDATE site_settings SET value = ? WHERE key = ?",
+            "UPDATE site_settings SET value = %s WHERE key = %s",
             (value, key)
         )
     else:
         execute_query(
-            "INSERT INTO site_settings (key, value) VALUES (?, ?)",
+            "INSERT INTO site_settings (key, value) VALUES (%s, %s)",
             (key, value)
         )
 
 
 def get_homepage_section(section_name, default_title="", default_content=""):
     row = query_one(
-        "SELECT * FROM homepage_content WHERE section = ?",
+        "SELECT * FROM homepage_content WHERE section = %s",
         (section_name,)
     )
     if row:
@@ -76,7 +76,7 @@ def get_homepage_section(section_name, default_title="", default_content=""):
 
 def upsert_homepage_section(section_name, title, content):
     existing = query_one(
-        "SELECT id FROM homepage_content WHERE section = ?",
+        "SELECT id FROM homepage_content WHERE section = %s",
         (section_name,)
     )
 
@@ -84,8 +84,8 @@ def upsert_homepage_section(section_name, title, content):
         execute_query(
             """
             UPDATE homepage_content
-            SET title = ?, content = ?, updated_at = CURRENT_TIMESTAMP
-            WHERE section = ?
+            SET title = %s, content = %s, updated_at = CURRENT_TIMESTAMP
+            WHERE section = %s
             """,
             (title, content, section_name)
         )
@@ -93,7 +93,7 @@ def upsert_homepage_section(section_name, title, content):
         execute_query(
             """
             INSERT INTO homepage_content (section, title, content)
-            VALUES (?, ?, ?)
+            VALUES (%s, %s, %s)
             """,
             (section_name, title, content)
         )
@@ -260,7 +260,7 @@ def contact():
         execute_query(
             """
             INSERT INTO contact_messages (name, email, subject, message)
-            VALUES (?, ?, ?, ?)
+            VALUES (%s, %s, %s, %s)
             """,
             (
                 form_data["name"],
@@ -290,7 +290,7 @@ def admin_login():
             return render_template("admin/login.html")
 
         admin_user = query_one(
-            "SELECT * FROM admin_users WHERE username = ?",
+            "SELECT * FROM admin_users WHERE username = %s",
             (username,)
         )
 
@@ -430,7 +430,7 @@ def admin_add_product():
             return render_template("admin/product_form.html", form_mode="add", product=None)
 
         execute_query(
-            "INSERT INTO products (name, description, category, icon) VALUES (?, ?, ?, ?)",
+            "INSERT INTO products (name, description, category, icon) VALUES (%s, %s, %s, %s)",
             (name, description, category, None)
         )
 
@@ -465,7 +465,7 @@ def admin_edit_product(product_id):
             current_image = saved_image_name
 
         execute_query(
-            "UPDATE products SET name=?, description=?, category=?, icon=? WHERE id=?",
+            "UPDATE products SET name=%s, description=%s, category=%s, icon=%s WHERE id=%s",
             (name, description, category, current_image, product_id)
         )
 
@@ -478,7 +478,7 @@ def admin_edit_product(product_id):
 @app.route("/admin/products/delete/<int:product_id>", methods=["POST"])
 @admin_login_required
 def admin_delete_product(product_id):
-    execute_query("DELETE FROM products WHERE id=?", (product_id,))
+    execute_query("DELETE FROM products WHERE id=%s", (product_id,))
     flash("Product deleted.", "success")
     return redirect(url_for("admin_products"))
 
@@ -511,7 +511,7 @@ def admin_add_achievement():
             return render_template("admin/achievement_form.html", form_mode="add", achievement=None)
 
         execute_query(
-            "INSERT INTO achievements (title, description, date, image_path) VALUES (?, ?, ?, ?)",
+            "INSERT INTO achievements (title, description, date, image_path) VALUES (%s, %s, %s, %s)",
             (title, description, date, saved_image_name)
         )
 
@@ -551,7 +551,7 @@ def admin_edit_achievement(achievement_id):
             current_image = saved_image_name
 
         execute_query(
-            "UPDATE achievements SET title=?, description=?, date=?, image_path=? WHERE id=?",
+            "UPDATE achievements SET title=%s, description=%s, date=%s, image_path=%s WHERE id=%s",
             (title, description, date, current_image, achievement_id)
         )
 
@@ -564,7 +564,7 @@ def admin_edit_achievement(achievement_id):
 @app.route("/admin/achievements/delete/<int:achievement_id>", methods=["POST"])
 @admin_login_required
 def admin_delete_achievement(achievement_id):
-    execute_query("DELETE FROM achievements WHERE id=?", (achievement_id,))
+    execute_query("DELETE FROM achievements WHERE id=%s", (achievement_id,))
     flash("Achievement deleted successfully.", "success")
     return redirect(url_for("admin_achievements"))
 
@@ -622,7 +622,7 @@ def admin_add_employee():
             """
             INSERT INTO employees
             (name, designation, department, email, phone, joining_date, bio, skills, photo_path, is_active)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             """,
             (
                 name,
@@ -693,8 +693,8 @@ def admin_edit_employee(employee_id):
         execute_query(
             """
             UPDATE employees
-            SET name = ?, designation = ?, department = ?, email = ?, phone = ?,
-                joining_date = ?, bio = ?, skills = ?, photo_path = ?, is_active = ?
+            SET name = %s, designation = %s, department = %s, email = %s, phone = %s,
+                joining_date = %s, bio = %s, skills = %s, photo_path = %s, is_active = %s
             WHERE id = %s
             """,
             (
