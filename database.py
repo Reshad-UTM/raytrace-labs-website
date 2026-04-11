@@ -1,25 +1,21 @@
 import os
-import sqlite3
-from pathlib import Path
+import psycopg2
+from psycopg2.extras import RealDictCursor
 
-BASE_DIR = Path(__file__).resolve().parent
-DATA_DIR = Path(os.environ.get("DATA_DIR", BASE_DIR))
-DATA_DIR.mkdir(parents=True, exist_ok=True)
 
-DB_PATH = DATA_DIR / "raytrace.db"
+DATABASE_URL = os.environ.get("POSTGRES_URL") or os.environ.get("DATABASE_URL")
 
 
 def get_connection():
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    return conn
+    return psycopg2.connect(DATABASE_URL, cursor_factory=RealDictCursor)
 
 
 def query_all(sql, params=()):
     conn = get_connection()
     try:
-        rows = conn.execute(sql, params).fetchall()
-        return rows
+        with conn.cursor() as cur:
+            cur.execute(sql, params)
+            return cur.fetchall()
     finally:
         conn.close()
 
@@ -27,8 +23,9 @@ def query_all(sql, params=()):
 def query_one(sql, params=()):
     conn = get_connection()
     try:
-        row = conn.execute(sql, params).fetchone()
-        return row
+        with conn.cursor() as cur:
+            cur.execute(sql, params)
+            return cur.fetchone()
     finally:
         conn.close()
 
@@ -36,8 +33,16 @@ def query_one(sql, params=()):
 def execute_query(sql, params=()):
     conn = get_connection()
     try:
-        cursor = conn.execute(sql, params)
-        conn.commit()
-        return cursor.lastrowid
+        with conn.cursor() as cur:
+            cur.execute(sql, params)
+            lastrowid = None
+            try:
+                row = cur.fetchone()
+                if row and "id" in row:
+                    lastrowid = row["id"]
+            except Exception:
+                pass
+            conn.commit()
+            return lastrowid
     finally:
         conn.close()

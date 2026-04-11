@@ -14,10 +14,10 @@
     <div class="container employee-grid">
         {% if employees_data %}
             {% for employee in employees_data %}
-            <a href="{{ url_for('employee_detail', employee_id=employee.id) }}" class="employee-card employee-card-link">
+            <div class="employee-card">
                 {% if employee.photo_path %}
                     <img
-                        src="{{ url_for('static', filename='uploads/' ~ employee.photo_path) }}"
+                        src="{{ employee.photo_path }}"
                         alt="{{ employee.name }}"
                         class="employee-photo"
                     >

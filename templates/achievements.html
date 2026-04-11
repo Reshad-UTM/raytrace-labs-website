@@ -6,21 +6,40 @@
     <div class="container">
         <p class="eyebrow">News & Achievements</p>
         <h1>Milestones, progress, and professional highlights</h1>
-        <p class="page-subtext">A snapshot of our technical growth, development efforts, and organizational progress.</p>
+        <p class="page-subtext">
+            A snapshot of our technical growth, development efforts, and organizational progress.
+        </p>
     </div>
 </section>
 
 <section class="cards-section">
     <div class="container timeline-list">
-        {% for item in achievements_data %}
-        <div class="timeline-card">
-            <div class="timeline-year">{{ item.year }}</div>
-            <div class="timeline-content">
-                <h3>{{ item.title }}</h3>
-                <p>{{ item.description }}</p>
+
+        {% if achievements_data %}
+            {% for item in achievements_data %}
+            <div class="timeline-card">
+
+                {% if item.image_path %}
+                    <img src="{{ item.image_path }}" alt="{{ item.title }}" class="achievement-image">
+                {% endif %}
+
+                <div class="timeline-year">
+                    {{ item.year or '—' }}
+                </div>
+
+                <div class="timeline-content">
+                    <h3>{{ item.title }}</h3>
+                    <p>{{ item.description or 'No details provided.' }}</p>
+                </div>
             </div>
-        </div>
-        {% endfor %}
+            {% endfor %}
+        {% else %}
+            <div class="glass-panel">
+                <h2>No achievements yet</h2>
+                <p>Items added from admin panel will appear here.</p>
+            </div>
+        {% endif %}
+
     </div>
 </section>
 

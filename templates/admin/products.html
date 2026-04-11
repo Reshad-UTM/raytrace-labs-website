@@ -1,64 +1,36 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section class="admin-page">
+
+<section class="page-hero">
     <div class="container">
+        <h1>Our Products & Services</h1>
+        <p>Innovative engineering solutions by RayTrace Labs</p>
+    </div>
+</section>
 
-        <div class="admin-topbar">
-            <div>
-                <p class="eyebrow">Admin Panel</p>
-                <h1>Manage Products</h1>
+<section class="cards-section">
+    <div class="container grid-3">
+
+        {% if products_data %}
+            {% for p in products_data %}
+            <div class="glass-panel">
+                {% if p.icon %}
+                    <img src="{{ p.icon }}" alt="{{ p.name }}" class="product-image">
+                {% endif %}
+                <h3>{{ p.name }}</h3>
+                <p class="employee-role">{{ p.category or 'General' }}</p>
+                <p>{{ p.description or 'No description added yet.' }}</p>
             </div>
-
-            <div class="admin-topbar-actions">
-                <a href="{{ url_for('admin_dashboard') }}" class="btn-outline">Back</a>
-                <a href="{{ url_for('admin_add_product') }}" class="btn-primary">Add Product</a>
+            {% endfor %}
+        {% else %}
+            <div class="glass-panel">
+                <h2>No data available</h2>
+                <p>Add items from admin panel to display here.</p>
             </div>
-        </div>
-
-        <div class="admin-panel-card">
-            {% if products_data %}
-                <table class="admin-table">
-                    <thead>
-                        <tr>
-                            <th>Image</th>
-                            <th>Name</th>
-                            <th>Category</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        {% for p in products_data %}
-                        <tr>
-                            <td>
-                                {% if p.icon %}
-                                    <img src="{{ url_for('static', filename='uploads/' ~ p.icon) }}" alt="{{ p.name }}" class="table-thumb">
-                                {% else %}
-                                    —
-                                {% endif %}
-                            </td>
-                            <td>{{ p.name }}</td>
-                            <td>{{ p.category or '—' }}</td>
-                            <td>
-                                <a href="{{ url_for('admin_edit_product', product_id=p.id) }}" class="btn-small btn-edit">Edit</a>
-
-                                <form method="POST" action="{{ url_for('admin_delete_product', product_id=p.id) }}" style="display:inline;">
-                                    <button class="btn-small btn-delete" type="submit">Delete</button>
-                                </form>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            {% else %}
-                <div class="glass-panel">
-                    <h2>No data available</h2>
-                    <p>Add items from admin panel to display here.</p>
-                </div>
-            {% endif %}
-        </div>
+        {% endif %}
 
     </div>
 </section>
+
 {% endblock %}
