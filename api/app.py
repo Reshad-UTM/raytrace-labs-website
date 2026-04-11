@@ -2,7 +2,14 @@ import os
 from functools import wraps
 from pathlib import Path
 from uuid import uuid4
-
+import cloudinary
+import cloudinary.uploader
+cloudinary.config(
+    cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.environ.get("CLOUDINARY_API_KEY"),
+    api_secret=os.environ.get("CLOUDINARY_API_SECRET"),
+    secure=True
+)
 from flask import (
     Flask,
     flash,
@@ -113,7 +120,14 @@ def allowed_file(filename):
 
 
 def save_uploaded_file(file_obj):
-    return "" 
+    if not file_obj or not file_obj.filename:
+        return ""
+
+    if not allowed_file(file_obj.filename):
+        return None
+
+    result = cloudinary.uploader.upload(file_obj, folder="raytrace-labs")
+    return result.get("secure_url", "") 
 
 
 @app.route("/")
@@ -147,9 +161,11 @@ def home():
         },
     ]
 
-    featured_products = []
-    achievements_preview = []
-    team_preview = []
+    featured_products = query_all("SELECT * FROM products ORDER BY id DESC LIMIT 3")
+    achievements_preview = query_all("SELECT * FROM achievements ORDER BY id DESC LIMIT 3")
+    team_preview = query_all(
+        "SELECT * FROM employees WHERE is_active = 1 ORDER BY id DESC LIMIT 3"
+    )
 
     return render_template(
         "index.html",
@@ -431,7 +447,7 @@ def admin_add_product():
 
         execute_query(
             "INSERT INTO products (name, description, category, icon) VALUES (%s, %s, %s, %s)",
-            (name, description, category, None)
+            (name, description, category, saved_image_name)
         )
 
         flash("Product added successfully.", "success")
