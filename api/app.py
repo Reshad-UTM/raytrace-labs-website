@@ -1,3 +1,4 @@
+import os
 from functools import wraps
 from pathlib import Path
 from uuid import uuid4
@@ -15,9 +16,6 @@ from werkzeug.security import check_password_hash
 from werkzeug.utils import secure_filename
 
 from database import execute_query, query_all, query_one
-from flask import Flask, render_template, request, redirect, url_for, session, flash
-import os
-from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = Path(os.environ.get("DATA_DIR", BASE_DIR))
@@ -30,7 +28,7 @@ app = Flask(
     static_folder=str(BASE_DIR / "static"),
 )
 
-app.config["SECRET_KEY"] = "change-this-later-raytrace-secret-key"
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "change-this-later-raytrace-secret-key")
 app.config["UPLOAD_FOLDER"] = str(UPLOAD_FOLDER)
 app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
 
@@ -38,16 +36,10 @@ UPLOAD_FOLDER.mkdir(parents=True, exist_ok=True)
 @app.context_processor
 def inject_site_data():
     return {
-        "global_site_name": get_setting("site_name", "RayTrace Labs"),
-        "global_site_tagline": get_setting(
-            "site_tagline",
-            "Robotics, Embedded Systems, AI & Intelligent Engineering Solutions"
-        ),
-        "global_site_location": get_setting("site_location", "Rajshahi, Bangladesh"),
-        "global_footer_text": get_setting(
-            "footer_text",
-            "© 2026 RayTrace Labs. All rights reserved."
-        ),
+        "global_site_name": "RayTrace Labs",
+        "global_site_tagline": "Robotics, Embedded Systems, AI & Intelligent Engineering Solutions",
+        "global_site_location": "Rajshahi, Bangladesh",
+        "global_footer_text": "© 2026 RayTrace Labs. All rights reserved.",
     }
 
 
@@ -122,36 +114,20 @@ def allowed_file(filename):
 
 
 def save_uploaded_file(file_obj):
-    return None
-
-    if file_obj.filename is None or file_obj.filename.strip() == "":
-        return ""
-
-    if not allowed_file(file_obj.filename):
-        return None
-
-    original_name = secure_filename(file_obj.filename)
-    extension = original_name.rsplit(".", 1)[1].lower()
-    unique_filename = f"{uuid4().hex}.{extension}"
-
-    save_path = UPLOAD_FOLDER / unique_filename
-    file_obj.save(str(save_path))
-
-    return unique_filename
+    return "" 
 
 
 @app.route("/")
 def home():
     company_info = {
-    "name": "RayTrace Labs",
-    "tagline": "Robotics, Embedded Systems, AI & Intelligent Engineering Solutions",
-    "location": "Rajshahi, Bangladesh",
-}
+        "name": "RayTrace Labs",
+        "tagline": "Robotics, Embedded Systems, AI & Intelligent Engineering Solutions",
+        "location": "Rajshahi, Bangladesh",
+    }
 
-            hero_section = "RayTrace Labs"
-            hero_subtitle = "Engineering Innovation"
-
-            about_preview = "RayTrace Labs develops practical, research-driven engineering systems."
+    hero_section = "RayTrace Labs"
+    hero_subtitle = "Engineering Innovation"
+    about_preview = "RayTrace Labs develops practical, research-driven engineering systems."
 
     featured_domains = [
         {
@@ -172,9 +148,9 @@ def home():
         },
     ]
 
-            featured_products = []
-            achievements_preview = []
-            team_preview = []
+    featured_products = []
+    achievements_preview = []
+    team_preview = []
 
     return render_template(
         "index.html",
