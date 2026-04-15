@@ -1,0 +1,30 @@
+[33m9f454cb[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m Upgrade admin employee section with search filter and thumbnails
+[33mc095113[m Upgrade admin employee section with search filter and thumbnails
+[33mca58675[m Update admin product UI + fix image upload
+[33m1515453[m Fix requirements using PowerShell (no BOM)
+[33mf9e442e[m Add Cloudinary dependency
+[33m3214b58[m Finalize Cloudinary and Neon integration
+[33m390fe11[m Finalize PostgreSQL query conversion
+[33m96c4f0f[m Remove upload folder creation for Vercel
+[33m294a78b[m Restore vercel routing to api index
+[33m4d1cad3[m Remove vercel.json for api-based deployment
+[33m9743141[m Fix homepage template for string-based content
+[33m545de91[m Fix Vercel api import path
+[33m20c7881[m Recreate requirements as pure ascii
+[33mcab778a[m Fix requirements encoding FINAL
+[33m8ca79a0[m Disable DB for Vercel initial load
+[33mc0fa63d[m Move Flask app to api for Vercel
+[33m1cb3f6f[m Recreate clean requirements file
+[33m818cd0b[m Fix requirements encoding error
+[33m70801ed[m Fix Vercel Flask deployment structure
+[33mf0d9771[m Fix Vercel Flask deployment and move static assets to public
+[33m7c6e32b[m Add vercel config
+[33m7cf4e79[m Simplify requirements for Vercel deployment
+[33m639c687[m Fix broken CSS media query and logo alignment
+[33m1955242[m Fix employee image fallback
+[33m7b68739[m Fix logo path
+[33mc601f9e[m Add SQLite fallback for local development
+[33m6af4308[m Fix employee detail link
+[33m5056325[m Fix indentation and secure admin routes
+[33m6aa9bea[m Prepare app for Render deployment
+[33m47b9bed[m Initial commit - RayTrace Labs Website
