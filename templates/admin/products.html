@@ -2,33 +2,45 @@
 
 {% block content %}
 
-<section class="page-hero">
+<section class="admin-page">
     <div class="container">
-        <h1>Our Products & Services</h1>
-        <p>Innovative engineering solutions by RayTrace Labs</p>
-    </div>
-</section>
 
-<section class="cards-section">
-    <div class="container grid-3">
+        <div class="admin-topbar">
+            <div>
+                <p class="eyebrow">Admin Panel</p>
+                <h1>Manage Products</h1>
+            </div>
 
-        {% if products_data %}
-            {% for p in products_data %}
-            <div class="glass-panel">
-                {% if p.icon %}
-                    <img src="{{ p.icon }}" alt="{{ p.name }}" class="product-image">
+            <div class="admin-topbar-actions">
+                <a href="{{ url_for('admin_add_product') }}" class="btn-primary">
+                    + Add Product
+                </a>
+            </div>
+        </div>
+
+        <section class="cards-section">
+            <div class="container grid-3">
+
+                {% if products_data %}
+                    {% for p in products_data %}
+                    <div class="glass-panel">
+                        {% if p.icon %}
+                            <img src="{{ p.icon }}" class="product-image">
+                        {% endif %}
+                        <h3>{{ p.name }}</h3>
+                        <p>{{ p.category }}</p>
+                        <p>{{ p.description }}</p>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="glass-panel">
+                        <h2>No products</h2>
+                        <p>Add products from admin panel</p>
+                    </div>
                 {% endif %}
-                <h3>{{ p.name }}</h3>
-                <p class="employee-role">{{ p.category or 'General' }}</p>
-                <p>{{ p.description or 'No description added yet.' }}</p>
+
             </div>
-            {% endfor %}
-        {% else %}
-            <div class="glass-panel">
-                <h2>No data available</h2>
-                <p>Add items from admin panel to display here.</p>
-            </div>
-        {% endif %}
+        </section>
 
     </div>
 </section>

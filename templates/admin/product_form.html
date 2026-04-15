@@ -47,7 +47,7 @@
                         <div class="current-image-box">
                             <p>Current Image:</p>
                             <img
-                                src="{{ url_for('static', filename='uploads/' ~ product.icon) }}"
+                                <img src="{{ product.icon }}" class="current-image-preview">
                                 alt="{{ product.name }}"
                                 class="current-image-preview"
                             >
